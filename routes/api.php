@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/user/signup', [UserController::class, 'signup']);
 Route::post('/user/login', [UserController::class, 'login']);
-
+Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 //plate color
 Route::get('/plate-color', [PlateColorsController::class, 'index']);

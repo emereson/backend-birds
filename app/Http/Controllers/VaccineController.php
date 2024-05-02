@@ -21,7 +21,6 @@ class VaccineController extends Controller
     
         if ($id) {
             $vaccines = Bird::with('vaccine','plateColor')->find($id);
-
         } 
     
         return response()->json([
