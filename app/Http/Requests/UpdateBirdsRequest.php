@@ -35,7 +35,6 @@ class UpdateBirdsRequest extends FormRequest
             'status' => 'required',
             'origin' => 'required',
             'observations' => 'required',
-            'in_care' => 'required'
         ];
     }
     

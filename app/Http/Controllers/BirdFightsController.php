@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBird_FigtsRequest;
 use App\Http\Requests\UpdateBird_FigtsRequest;
-use App\Models\Bird_Fights;
+use App\Models\Bird_fights;
 
 class BirdFightsController extends Controller
 {
@@ -13,9 +13,13 @@ class BirdFightsController extends Controller
      */
     public function index()
     {
-        //
+        $fights = Bird_Fights::all();
+        return response()->json([
+            'message' => 'Todas las peleas encontradas',
+            'fights' => $fights,
+        ], 200);
     }
-
+    
     public function getBirdFights($id)
     {
         try {

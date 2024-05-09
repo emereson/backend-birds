@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class bird_fights extends Model
+class Bird_fights extends Model
 {
     use HasFactory;
 

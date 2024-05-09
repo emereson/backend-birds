@@ -302,24 +302,58 @@ class BirdsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBirdsRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        // Buscar el ave por su ID
-        $bird = Bird::findOrFail($id);
-        
-        // Validar los datos del formulario
-        $validatedData = $request->validated();
-        
-        // Actualizar el ave con los datos validados
-        $bird->update($validatedData);
+        try {
+            // Buscar el ave por su ID
+            $bird = Bird::findOrFail($id);
+            
+            // Validar los datos del formulario
+            $validatedData = $request->validate([
+                'plate_color_id' => 'required',
+                'plate_number' => 'required',
+                'sex' => 'required',
+                'father_bird_id' => 'nullable',
+                'mother_bird_id' => 'nullable',
+                'birthdate' => 'required|date',
+                'bird_color' => 'required',
+                'crest_type' => 'required',
+                'line' => 'required',
+                'weight' => 'required',
+                'status' => 'required',
+                'origin' => 'required',
+                'observations' => 'required',
+            ]);
+            $birdColor = json_decode($request->input('bird_color'));
+            $validatedData['bird_color'] = $birdColor;
 
-        // Devolver una respuesta JSON con el ave actualizada y un mensaje de éxito
-        return response()->json([
-            'message' => '¡El ave ha sido actualizada exitosamente!',
-            'bird' => $bird
-        ], 200);
-    }
+            $validatedData['father_bird_id'] = intval($validatedData['father_bird_id']);
+            $validatedData['mother_bird_id'] = intval($validatedData['mother_bird_id']);
+            // Actualizar el ave con los datos validados
+            $bird->update($validatedData);
     
+            // Devolver una respuesta JSON con el ave actualizada y un mensaje de éxito
+            return response()->json([
+                'message' => '¡El ave ha sido actualizada exitosamente!',
+                'bird' => $bird
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Manejar el error cuando no se encuentra el ave
+            return response()->json([
+                'message' => 'No se encontró ningún ave con el ID proporcionado.'
+            ], 404);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Manejar el error de consulta SQL
+            return response()->json([
+                'message' => 'Ha ocurrido un error al actualizar el ave: ' . $e->getMessage()
+            ], 500);
+        } catch (\Exception $e) {
+            // Manejar cualquier otro error
+            return response()->json([
+                'message' => 'Ha ocurrido un error al actualizar el ave: ' . $e->getMessage()
+            ], 500);
+        }
+    }
     
     
 

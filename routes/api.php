@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BirdsController;
 use App\Http\Controllers\PlateColorsController;
 use App\Http\Controllers\BirdImagesController;
+use App\Http\Controllers\BirdVideosController;
 use App\Http\Controllers\BirdColorController;
 use App\Http\Controllers\CrestTypeController;
 use App\Http\Controllers\LineController;
@@ -52,6 +53,13 @@ Route::delete('/birds/{id}', [BirdsController::class, 'destroy']);
 // Rutas para las imagenes del ave
 Route::get('/bird-images', [BirdImagesController::class, 'index']);
 Route::post('/bird-images', [BirdImagesController::class, 'store']);
+Route::delete('/bird-images/{id}', [BirdImagesController::class, 'destroy']);
+
+// Rutas para los videos del ave
+Route::get('/bird-videos', [BirdVideosController::class, 'index']);
+Route::post('/bird-videos', [BirdVideosController::class, 'store']);
+Route::delete('/bird-videos/{id}', [BirdVideosController::class, 'destroy']);
+
 
 //weeight
 Route::get('/vaccine/{id}', [VaccineController::class, 'index']);
@@ -66,6 +74,7 @@ Route::post('/bird-color', [BirdColorController::class, 'store']);
 Route::patch('/bird-color/{id}', [BirdColorController::class, 'update']);
 
 // bird-fitgh
+Route::get('/bird-fight', [BirdFightsController::class, 'index']);
 Route::get('/bird-fight/{id}', [BirdFightsController::class, 'getBirdFights']);
 Route::post('/bird-fight', [BirdFightsController::class, 'store']);
 
