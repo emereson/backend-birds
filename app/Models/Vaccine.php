@@ -17,6 +17,7 @@ class Vaccine extends Model
         'internal_deworming', 
         'external_deworming', 
         'date', 
+        'observations'
     ];
 
     public function bird()

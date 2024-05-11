@@ -23,12 +23,13 @@ class StoreVaccineRequest extends FormRequest
     {
         return [
         'bird_id' => 'required',
-        'blister' => 'required', 
-        'pill' => 'required', 
-        'drops' => 'required', 
-        'internal_deworming' => 'required', 
-        'external_deworming' => 'required', 
-        'date' => 'required', 
+        'blister', 
+        'pill', 
+        'drops', 
+        'internal_deworming', 
+        'external_deworming', 
+        'date', 
+        'observations', 
         ];
     }
 }

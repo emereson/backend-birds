@@ -11,7 +11,7 @@ class UpdateBirthsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateBirthsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'number_eggs' => 'required',
+            'number_births' => 'required',
+            'father_id' => 'required',
+            'mother_id' => 'required',
+            'date_eggs' => 'required|date',
         ];
     }
 }

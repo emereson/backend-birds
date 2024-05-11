@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('internal_deworming');
             $table->string('external_deworming');
             $table->string('date');
+            $table->text('observations');
 
             $table->foreign('bird_id')->references('id')->on('birds');
 

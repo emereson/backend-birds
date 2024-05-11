@@ -11,7 +11,7 @@ class UpdateVaccineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateVaccineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'blister' => 'nullable|string',
+            'pill' => 'nullable|string',
+            'drops' => 'nullable|string',
+            'internal_deworming' => 'nullable|string',
+            'external_deworming' => 'nullable|string',
+            'date' => 'nullable|date',
+            'observations' => 'nullable|string',
         ];
     }
 }

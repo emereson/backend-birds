@@ -22,20 +22,14 @@ class UpdateBird_FigtsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plate_color_id',
-            'plate_number',
-            'sex',
-            'father_bird_id',
-            'mother_bird_id',
-            'birthdate',
-            'bird_color', 
-            'crest_type',
-            'line',
-            'weight',
-            'status',
-            'origin',
-            'observations',
-            'in_care'
+            'number_fight' => 'required|string',
+            'coliseum' => 'required|string',
+            'opponent' => 'required|string',
+            'weight' => 'required|string',
+            'date_fight' => 'required|date',
+            'minutes' => 'required|string',
+            'state' => 'required|string',
+            'observations' => 'nullable|string',
         ];
     }
 }

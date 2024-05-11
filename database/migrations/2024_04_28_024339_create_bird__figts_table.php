@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('date_fight');
             $table->string('minutes');
             $table->string('state');
+            $table->text('observations');
+
 
             $table->foreign('bird_id')->references('id')->on('birds');
 

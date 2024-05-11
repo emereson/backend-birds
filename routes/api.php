@@ -61,11 +61,11 @@ Route::post('/bird-videos', [BirdVideosController::class, 'store']);
 Route::delete('/bird-videos/{id}', [BirdVideosController::class, 'destroy']);
 
 
-//weeight
+//vaccine
 Route::get('/vaccine/{id}', [VaccineController::class, 'index']);
 Route::post('/vaccine', [VaccineController::class, 'store']);
-Route::patch('/vaccine/{id}', [VaccineController::class, 'update']);
-
+Route::patch('/vaccine/{vaccine}', [VaccineController::class, 'update']);
+Route::delete('/vaccine/{vaccine}', [VaccineController::class, 'destroy']);
 
 
 // bird-color
@@ -77,10 +77,14 @@ Route::patch('/bird-color/{id}', [BirdColorController::class, 'update']);
 Route::get('/bird-fight', [BirdFightsController::class, 'index']);
 Route::get('/bird-fight/{id}', [BirdFightsController::class, 'getBirdFights']);
 Route::post('/bird-fight', [BirdFightsController::class, 'store']);
+Route::patch('/bird-fight/{bird_Fights}', [BirdFightsController::class, 'update']);
+Route::delete('/bird-fight/{bird_Fights}', [BirdFightsController::class, 'destroy']);
 
 //nacimiento de los pollitos
 Route::get('/births', [BirthsController::class, 'index']);
 Route::post('/births', [BirthsController::class, 'store']);
+Route::patch('/births/{births}', [BirthsController::class, 'update']);
+Route::delete('/births/{births}', [BirthsController::class, 'destroy']);
 
 
 // crest type

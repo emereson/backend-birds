@@ -66,6 +66,8 @@ class BirdFightsController extends Controller
                 'minutes' => $validatedData['minutes'],
                 'state' => $validatedData['state'],
                 'bird_id' => $validatedData['bird_id'],
+                'observations' => $validatedData['observations'],
+
             ]);
             
             // Puedes devolver una respuesta JSON indicando el éxito de la operación si es necesario
@@ -101,16 +103,49 @@ class BirdFightsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBird_FigtsRequest $request, Bird_Figts $bird_Figts)
+    public function update(UpdateBird_FigtsRequest $request, Bird_Fights $bird_Fights)
     {
-        //
+        try {
+            // Validar los datos del formulario
+            $validatedData = $request->validated();
+            
+            // Actualizar el registro de pelea de ave con los datos validados
+            $bird_Fights->update($validatedData);
+            
+            // Devolver una respuesta JSON indicando el éxito de la operación
+            return response()->json([
+                'message' => 'Registro de pelea de ave actualizado exitosamente.',
+                'birdFight' => $bird_Fights,
+                'validatedData' => $validatedData
+            ], 200);
+        } catch (\Throwable $th) {
+            // Manejar cualquier excepción que se produzca
+            return response()->json([
+                'message' => 'Se produjo un error al intentar actualizar el registro de pelea de ave.',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bird_Figts $bird_Figts)
+    public function destroy(Bird_Fights $bird_Fights)
     {
-        //
+        try {
+            // Eliminar el registro de pelea de ave
+            $bird_Fights->delete();
+            
+            // Devolver una respuesta JSON indicando el éxito de la operación
+            return response()->json([
+                'message' => 'Registro de pelea de ave eliminado exitosamente.',
+            ], 200);
+        } catch (\Throwable $th) {
+            // Manejar cualquier excepción que se produzca
+            return response()->json([
+                'message' => 'Se produjo un error al intentar eliminar el registro de pelea de ave.',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 }

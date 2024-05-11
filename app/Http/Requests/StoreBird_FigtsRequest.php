@@ -30,6 +30,7 @@ class StoreBird_FigtsRequest extends FormRequest
             'minutes' => 'required',
             'state' => 'required',
             'bird_id' => 'required',
+            'observations' => 'required',
 
             
         ];

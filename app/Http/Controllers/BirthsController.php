@@ -95,14 +95,58 @@ class BirthsController extends Controller
      */
     public function update(UpdateBirthsRequest $request, Births $births)
     {
-        //
+        try {
+            // Validar los datos del formulario
+            $validatedData = $request->validated();
+            
+            // Calcular la fecha de eclosión (20 días después de la fecha de los huevos)
+            $date_eggs = $validatedData['date_eggs'];
+            $date_hatching = date('Y-m-d', strtotime($date_eggs . ' +20 days'));
+            
+            // Actualizar el registro de nacimientos con los datos validados
+            $births->update([
+                'number_eggs' => $validatedData['number_eggs'],
+                'number_births' => $validatedData['number_births'],
+                'father_id' => $validatedData['father_id'],
+                'mother_id' => $validatedData['mother_id'],
+                'date_eggs' => $validatedData['date_eggs'],
+                'date_hatching' => $date_hatching,
+            ]);
+            
+            // Devolver una respuesta JSON indicando el éxito de la operación
+            return response()->json([
+                'message' => 'Registro de nacimientos actualizado exitosamente.',
+                'births' => $births,
+            ], 200);
+        } catch (\Throwable $th) {
+            // Manejar cualquier excepción que se produzca
+            return response()->json([
+                'message' => 'Se produjo un error al intentar actualizar el registro de nacimientos.',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Births $births)
     {
-        //
+        try {
+            // Eliminar el registro de nacimientos
+            $births->delete();
+            
+            // Devolver una respuesta JSON indicando el éxito de la operación
+            return response()->json([
+                'message' => 'Registro de nacimientos eliminado exitosamente.',
+            ], 200);
+        } catch (\Throwable $th) {
+            // Manejar cualquier excepción que se produzca
+            return response()->json([
+                'message' => 'Se produjo un error al intentar eliminar el registro de nacimientos.',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 }

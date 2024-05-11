@@ -16,6 +16,7 @@ class Bird_fights extends Model
         'date_fight',
         'minutes',
         'state',
+        'observations',
         'bird_id', // Aquí debería ser la coma, no "fonenkey"
     ];
 
