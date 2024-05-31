@@ -209,77 +209,84 @@ class BirdsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    try {
-        // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'plate_color_id' => 'required',
-            'plate_number' => 'required',
-            'sex' => 'required',
-            'father_bird_id' => 'nullable',
-            'mother_bird_id' => 'nullable',
-            'birthdate' => 'required|date',
-            'bird_color' => 'required',
-            'crest_type' => 'required',
-            'line' => 'required',
-            'weight' => 'required',
-            'status' => 'required',
-            'origin' => 'required',
-            'observations' => 'required',
-            'link_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
-            'link_video.*' => 'nullable', // Max 20MB para videos
-        ]);
-    
-        $birdColor = json_decode($request->input('bird_color'));
-        $validatedData['bird_color'] = $birdColor;
-        
-        $bird = Bird::create($validatedData);
-
-     
-        $images = $request-> link_image;
-     
-        
-        foreach ($images as $image) {
-            // Generar un nombre único para la imagen
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-
-            BirdImage::create([
-                'bird_id' => $bird->id,
-                'link_image' => 'images/' . $imageName,
+    {
+        try {
+            // Validar los datos del formulario
+            $validatedData = $request->validate([
+                'plate_color_id' => 'required',
+                'plate_number' => 'required',
+                'sex' => 'required',
+                'father_bird_id' => 'nullable',
+                'mother_bird_id' => 'nullable',
+                'birthdate' => 'required|date',
+                'bird_color' => 'required',
+                'crest_type' => 'required',
+                'line' => 'required',
+                'weight' => 'required',
+                'status' => 'required',
+                'origin' => 'required',
+                'observations' => 'required',
+                'link_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
+                'link_video.*' => 'nullable|mimes:mp4,avi,mkv|max:20480', // Max 20MB para videos
             ]);
-        }
-
-        $videos = $request-> link_video;
-
-        if ($videos) {
-            foreach ($videos as $video) {
-                // Generar un nombre único para la imagen
-                $videoName = time() . '_' . $video->getClientOriginalName();
-                $video->move(public_path('videos'), $videoName);
     
-                BirdVideos::create([
-                    'bird_id' => $bird->id,
-                    'link_video' => 'videos/' . $videoName,
-                ]);
+            $existBird = Bird::where('plate_number', $request->plate_number)
+                ->where('plate_color_id', $request->plate_color_id)
+                ->first();
+    
+            if ($existBird) {
+                return response()->json([
+                    'message' => 'ya existe un ave con la placa y el color de placa igual'
+                ], 400);
             }
-        }
     
-  
-
-        // Retorna una respuesta adecuada
-        return response()->json([
-            'message' => 'El ave ha sido creada correctamente',
-            'bird' => $bird,
-        ], 201);
-    } catch (\Exception $e) {
-        // Manejar cualquier excepción capturada aquí
-        return response()->json([
-            'message' => 'Se produjo un error al intentar crear el ave',
-            'error' => $e->getMessage(),
-        ], 500);
+            $birdColor = json_decode($request->input('bird_color'));
+            $validatedData['bird_color'] = $birdColor;
+            
+            $bird = Bird::create($validatedData);
+    
+            if ($request->has('link_image')) {
+                $images = $request->link_image;
+                foreach ($images as $image) {
+                    // Generar un nombre único para la imagen
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('images'), $imageName);
+    
+                    BirdImage::create([
+                        'bird_id' => $bird->id,
+                        'link_image' => 'images/' . $imageName,
+                    ]);
+                }
+            }
+    
+            if ($request->has('link_video')) {
+                $videos = $request->link_video;
+                foreach ($videos as $video) {
+                    // Generar un nombre único para el video
+                    $videoName = time() . '_' . $video->getClientOriginalName();
+                    $video->move(public_path('videos'), $videoName);
+        
+                    BirdVideos::create([
+                        'bird_id' => $bird->id,
+                        'link_video' => 'videos/' . $videoName,
+                    ]);
+                }
+            }
+        
+            // Retorna una respuesta adecuada
+            return response()->json([
+                'message' => 'El ave ha sido creada correctamente',
+                'bird' => $bird,
+            ], 201);
+        } catch (\Exception $e) {
+            // Manejar cualquier excepción capturada aquí
+            return response()->json([
+                'message' => 'Se produjo un error al intentar crear el ave',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-}
+    
 
     
     
