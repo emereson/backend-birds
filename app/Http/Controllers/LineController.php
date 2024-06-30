@@ -114,8 +114,24 @@ class LineController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Line $line)
+    public function destroy($id)
     {
-        //
+        try {
+            // Obtener el color del ave por su ID
+            $line = Line::findOrFail($id);
+
+            // Eliminar el color del ave
+            $line->delete();
+
+            return response()->json([
+                'message' => 'El line para el ave ha sido eliminado exitosamente',
+            ], 200);
+        } catch (\Exception $e) {
+            // Manejar cualquier excepción capturada aquí
+            return response()->json([
+                'message' => 'Se produjo un error al intentar eliminar el line del ave',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

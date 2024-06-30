@@ -33,6 +33,7 @@ Route::delete('/user/{id}', [UserController::class, 'destroy']);
 Route::get('/plate-color', [PlateColorsController::class, 'index']);
 Route::post('/plate-color', [PlateColorsController::class, 'store']);
 Route::patch('/plate-color/{id}', [PlateColorsController::class, 'update']);
+Route::delete('/plate-color/{id}', [PlateColorsController::class, 'destroy']);
 
 
 // Rutas para las aves
@@ -72,6 +73,7 @@ Route::delete('/vaccine/{vaccine}', [VaccineController::class, 'destroy']);
 Route::get('/bird-color', [BirdColorController::class, 'index']);
 Route::post('/bird-color', [BirdColorController::class, 'store']);
 Route::patch('/bird-color/{id}', [BirdColorController::class, 'update']);
+Route::delete('/bird-color/{id}', [BirdColorController::class, 'destroy']);
 
 // bird-fitgh
 Route::get('/bird-fight', [BirdFightsController::class, 'index']);
@@ -91,22 +93,26 @@ Route::delete('/births/{births}', [BirthsController::class, 'destroy']);
 Route::get('/crest-type', [CrestTypeController::class, 'index']);
 Route::post('/crest-type', [CrestTypeController::class, 'store']);
 Route::patch('/crest-type/{id}', [CrestTypeController::class, 'update']);
+Route::delete('/crest-type/{id}', [CrestTypeController::class, 'destroy']);
 
 // line
 Route::get('/line', [LineController::class, 'index']);
 Route::post('/line', [LineController::class, 'store']);
 Route::patch('/line/{id}', [LineController::class, 'update']);
+Route::delete('/line/{id}', [LineController::class, 'destroy']);
 
 // origin
 Route::get('/origin', [OriginController::class, 'index']);
 Route::post('/origin', [OriginController::class, 'store']);
 Route::patch('/origin/{id}', [OriginController::class, 'update']);
+Route::delete('/origin/{id}', [OriginController::class, 'destroy']);
 
 
 // status
 Route::get('/status', [StatusController::class, 'index']);
 Route::post('/status', [StatusController::class, 'store']);
 Route::patch('/status/{id}', [StatusController::class, 'update']);
+Route::delete('/status/{id}', [StatusController::class, 'destroy']);
 
 //weeight
 Route::get('/weight', [WeightController::class, 'index']);

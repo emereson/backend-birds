@@ -114,8 +114,24 @@ class OriginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Origin $origin)
+    public function destroy($id)
     {
-        //
+        try {
+            // Obtener el color del ave por su ID
+            $origin = Origin::findOrFail($id);
+
+            // Eliminar el color del ave
+            $origin->delete();
+
+            return response()->json([
+                'message' => 'El origin para el ave ha sido eliminado exitosamente',
+            ], 200);
+        } catch (\Exception $e) {
+            // Manejar cualquier excepción capturada aquí
+            return response()->json([
+                'message' => 'Se produjo un error al intentar eliminar el origin del ave',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

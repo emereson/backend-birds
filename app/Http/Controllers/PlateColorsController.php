@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePlateColorsRequest;
 use App\Http\Requests\UpdatePlateColorsRequest;
 use App\Models\PlateColor;
+use App\Models\Bird;
 
 class PlateColorsController extends Controller
 {
@@ -108,8 +109,30 @@ class PlateColorsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PlateColors $plateColors)
+    public function destroy($id)
     {
-        //
+        try {
+            // Verificar si hay aves que usan este color de placa
+            $birdsUsingPlateColor = Bird::where('plate_color_id', $id)->exists();
+
+            if ($birdsUsingPlateColor) {
+                return response()->json([
+                    'message' => 'No se puede eliminar este color de placa porque hay aves que lo están usando.'
+                ], 422); // Código 422 para indicar una solicitud inválida
+            }
+
+            // Si no hay aves usando este color de placa, eliminarlo
+            $plateColor = PlateColor::findOrFail($id);
+            $plateColor->delete();
+
+            return response()->json([
+                'message' => 'El color de placa ha sido eliminado exitosamente.',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Se produjo un error al intentar eliminar el color de placa.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
